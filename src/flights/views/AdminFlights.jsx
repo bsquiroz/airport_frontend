@@ -1,7 +1,7 @@
 import { TableFlightsAdminView } from "./../components/TableFlightsAdminView";
 import { useSelector } from "react-redux";
 
-export const AdminFlights = () => {
+export const AdminFlights = ({ socket }) => {
 	const { isLoading, flights } = useSelector((state) => state.flights);
 
 	return (
@@ -10,7 +10,7 @@ export const AdminFlights = () => {
 			{isLoading ? (
 				"Cargando..."
 			) : (
-				<TableFlightsAdminView flights={flights} />
+				<TableFlightsAdminView flights={flights} socket={socket} />
 			)}
 		</section>
 	);

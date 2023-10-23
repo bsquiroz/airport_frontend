@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getFlights } from "../../store/slices/flights";
+import { getFlights, setFlights } from "../../store/slices/flights";
+import { useSocket } from "../../common/hooks/useSocket";
 
 export const TableFlightsTvScreen = () => {
+	const { socket } = useSocket(import.meta.env.VITE_API_URL);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getFlights());
 	}, [dispatch]);
+
+	useEffect(() => {
+		socket.on("news-flights", (flights) => {
+			dispatch(setFlights(flights));
+		});
+	}, [socket, dispatch]);
 
 	const { flights } = useSelector((state) => state.flights);
 

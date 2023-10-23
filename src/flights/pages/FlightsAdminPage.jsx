@@ -6,6 +6,7 @@ import { getFlights } from "../../store/slices/flights";
 import { useSocket } from "../../common/hooks/useSocket";
 
 export const FlightsAdminPage = () => {
+	const { online, socket } = useSocket(import.meta.env.VITE_API_URL);
 	const [showView, setShowView] = useState("start");
 
 	const dispatch = useDispatch();
@@ -19,8 +20,6 @@ export const FlightsAdminPage = () => {
 	const goTvScreen = () => {
 		navigate("/flights/view-tv-flights");
 	};
-
-	const { online, socket } = useSocket(import.meta.env.VITE_API_URL);
 
 	return (
 		<>
@@ -63,7 +62,9 @@ export const FlightsAdminPage = () => {
 			<div className="page-container">
 				{showView === "start" && <FlightsView />}
 
-				{showView === "adminFlights" && <AdminFlights />}
+				{showView === "adminFlights" && (
+					<AdminFlights socket={socket} />
+				)}
 
 				{showView === "createFlights" && <CreateFlightView />}
 			</div>

@@ -3,13 +3,13 @@ import { aproveFlight } from "./../services/apiFlights.js";
 import { useDispatch } from "react-redux";
 import { getFlights } from "./../../store/slices/flights";
 
-export const TableFlightsAdminView = ({ flights }) => {
+export const TableFlightsAdminView = ({ flights, socket }) => {
 	const dispatch = useDispatch();
 
 	const startAproveFlight = async (id) => {
-		const result = await aproveFlight(id);
+		await aproveFlight(id);
+		socket.emit("get-flights", { id });
 		dispatch(getFlights());
-		console.log(result);
 	};
 
 	const cancelFlight = (id) => {
